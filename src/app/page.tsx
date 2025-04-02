@@ -3,11 +3,13 @@
 import React from "react";
 import Link from "next/link";
 import { ArrowRight, Menu, Rocket, X } from "lucide-react";
+import FileUpload from "@/components/file-upload";
+import { Button } from "@/components/ui/button";
 
 export default function HeroSection() {
   return (
     <>
-      <main className="overflow-hidden">
+      <main className="">
         <section className="relative">
           <div className="relative py-24">
             <div className="mx-auto max-w-7xl px-6 md:px-12">
@@ -34,9 +36,10 @@ export default function HeroSection() {
                   Upload & Get intelligent resume feedback.
                 </p>
               </div>
-              <div className="x-auto relative z-20 mx-auto mt-8 max-w-lg sm:mt-12">
-                <div className="absolute inset-0 -top-8 left-1/2 -z-20 h-56 w-full -translate-x-1/2 [background-image:linear-gradient(to_bottom,transparent_98%,theme(colors.blue.200/75%)_98%),linear-gradient(to_right,transparent_94%,_theme(colors.blue.200/75%)_94%)] [background-size:16px_35px] [mask:radial-gradient(black,transparent_95%)] dark:opacity-10"></div>
-              </div>
+              <FileUpload
+                isAnalyzing={false}
+                onFileSelected={() => console.log("yeah")}
+              />
             </div>
           </div>
         </section>
