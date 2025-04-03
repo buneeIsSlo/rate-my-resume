@@ -11,7 +11,7 @@ export default function HeroSection() {
     <>
       <main className="">
         <section className="relative">
-          <div className="relative py-24">
+          <div className="relative pt-24">
             <div className="mx-auto max-w-7xl px-6 md:px-12">
               <div className="text-center sm:mx-auto sm:w-10/12 lg:mt-0 lg:mr-auto lg:w-4/5">
                 <Link

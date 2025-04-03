@@ -2,6 +2,7 @@ import { cn } from "@/lib/utils";
 import { CheckCircle2, FileWarning, Upload } from "lucide-react";
 import React, { useCallback, useRef, useState } from "react";
 import { Button } from "./ui/button";
+import AnalyzeButton from "./analyze-button";
 
 interface FileUploadProps {
   onFileSelected: (file: File) => void;
@@ -111,6 +112,14 @@ export default function FileUpload({
             <p className="text-muted-foreground text-sm">
               {(selectedFile.size / 1024).toFixed(0)} KB
             </p>
+            <span className="text-muted-foreground/50 font-normal">or</span>
+            <Button
+              className="text-muted-foreground h-fit cursor-pointer p-0 text-sm font-normal"
+              variant={"link"}
+              onClick={handleButtonClick}
+            >
+              Select a different file
+            </Button>
           </div>
         ) : (
           <>
@@ -122,14 +131,14 @@ export default function FileUpload({
           </>
         )}
 
-        {!isAnalyzing && (
+        {!isAnalyzing && !selectedFile && (
           <Button
             onClick={handleButtonClick}
             variant="secondary"
             disabled={isAnalyzing}
             className="mt-2 cursor-pointer"
           >
-            {selectedFile ? "Replace File" : "Select File"}
+            Select file
           </Button>
         )}
 
@@ -141,13 +150,19 @@ export default function FileUpload({
         )}
       </div>
 
-      <p className="text-muted-foreground mt-2 text-center text-xs">
-        Supported formats: PDF, DOC, DOCX (Max 2MB)
-      </p>
+      <div className="mt-2">
+        {!selectedFile && (
+          <p className="text-muted-foreground text-center text-xs">
+            Supported formats: PDF, DOC, DOCX (Max 2MB)
+          </p>
+        )}
 
-      <div className="x-auto relative z-20 mx-auto mt-8 max-w-lg sm:mt-12">
-        <div className="absolute inset-0 -top-8 left-1/2 -z-20 h-56 w-full -translate-x-1/2 [background-image:linear-gradient(to_bottom,transparent_98%,theme(colors.blue.200/75%)_98%),linear-gradient(to_right,transparent_94%,_theme(colors.blue.200/75%)_94%)] [background-size:16px_35px] [mask:radial-gradient(black,transparent_95%)] dark:opacity-10"></div>
+        {selectedFile && <AnalyzeButton />}
       </div>
+
+      {/* <div className="x-auto relative z-20 mx-auto mt-8 max-w-lg sm:mt-12">
+        <div className="absolute inset-0 -top-8 left-1/2 -z-20 h-56 w-full -translate-x-1/2 [background-image:linear-gradient(to_bottom,transparent_98%,theme(colors.blue.200/75%)_98%),linear-gradient(to_right,transparent_94%,_theme(colors.blue.200/75%)_94%)] [background-size:16px_35px] [mask:radial-gradient(black,transparent_95%)] dark:opacity-10"></div>
+      </div> */}
     </div>
   );
 }
