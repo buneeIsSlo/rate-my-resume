@@ -45,7 +45,7 @@ const WeaknessSchema = z
   })
   .describe("Schema for individual weaknesses in the resume");
 
-const AnalysisResultSchema = z.object({
+export const AnalysisResultSchema = z.object({
   typos: z
     .array(TypoSchema)
     .describe("An array of typos detected in the resume"),
@@ -65,31 +65,31 @@ const AnalysisResultSchema = z.object({
     ),
   scores: z
     .object({
-      typos: z
-        .number()
-        .min(1)
-        .max(10)
-        .describe("Score for typos on a scale of 1 to 10"),
-      ats: z
-        .number()
-        .min(1)
-        .max(10)
-        .describe("Score for ATS friendliness on a scale of 1 to 10"),
-      strengths: z
-        .number()
-        .min(1)
-        .max(10)
-        .describe("Score for strengths on a scale of 1 to 10"),
-      weaknesses: z
-        .number()
-        .min(1)
-        .max(10)
-        .describe("Score for weaknesses on a scale of 1 to 10"),
       overall: z
         .number()
-        .min(1)
-        .max(10)
-        .describe("Overall resume score on a scale of 1 to 10"),
+        .min(0)
+        .max(100)
+        .describe("Overall resume score on a scale of 0 to 100"),
+      typos: z
+        .number()
+        .min(0)
+        .max(100)
+        .describe("Score for typos on a scale of 0 to 100"),
+      ats: z
+        .number()
+        .min(0)
+        .max(100)
+        .describe("Score for ATS friendliness on a scale of 0 to 100"),
+      strengths: z
+        .number()
+        .min(0)
+        .max(100)
+        .describe("Score for strengths on a scale of 0 to 100"),
+      weaknesses: z
+        .number()
+        .min(0)
+        .max(100)
+        .describe("Score for weaknesses on a scale of 0 to 100"),
     })
     .describe("An object containing scores for each analysis category"),
 });
