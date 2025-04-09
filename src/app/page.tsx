@@ -18,7 +18,7 @@ export default function HeroSection() {
                   className="mx-auto flex w-fit items-center gap-2 rounded-(--radius) border p-1 pr-3"
                 >
                   <span className="bg-primary/10 text-primary rounded-full px-3 py-1 text-xs font-medium">
-                    Gemini API
+                    ⭐ GitHub
                   </span>
                   <span className="block h-4 w-px bg-(--color-border)"></span>
                   <ArrowRight className="text-primary size-4" />
