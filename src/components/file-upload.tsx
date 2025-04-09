@@ -1,12 +1,20 @@
 import { cn } from "@/lib/utils";
-import { CheckCircle2, FileWarning, Upload } from "lucide-react";
+import {
+  CheckCircle2,
+  FileWarning,
+  Loader,
+  Loader2,
+  Upload,
+} from "lucide-react";
 import React, { useCallback, useRef, useState } from "react";
 import { Button } from "./ui/button";
-import AnalyzeButton from "./analyze-button";
+import useAnalysisResult from "@/hooks/useAnalysisResult";
 
 interface FileUploadProps {
   onFileSelected: (file: File) => void;
+  onAnalyze: () => void;
   isAnalyzing: boolean;
+  selectedFile: File | null;
   className?: string;
 }
 
@@ -14,12 +22,13 @@ const MAX_FILE_SIZE = 2 * 1024 * 1024; // 2MB
 
 export default function FileUpload({
   onFileSelected,
+  onAnalyze,
   isAnalyzing,
+  selectedFile,
   className,
 }: FileUploadProps) {
   const [isDragging, setIsDragging] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFile = useCallback((file: File) => {
@@ -39,7 +48,6 @@ export default function FileUpload({
       return;
     }
 
-    setSelectedFile(file);
     onFileSelected(file);
   }, []);
 
@@ -83,8 +91,20 @@ export default function FileUpload({
     }
   }, []);
 
+  const {
+    mutate: analyzeResume,
+    data: analysisResult,
+    isPending,
+  } = useAnalysisResult();
+
   return (
-    <div className={cn("mx-auto mt-12 w-full max-w-md", className)}>
+    <form
+      onSubmit={async (e) => {
+        e.preventDefault();
+        onAnalyze();
+      }}
+      className={cn("mx-auto mt-12 w-full max-w-md", className)}
+    >
       <div
         className={cn(
           "relative flex flex-col items-center justify-center rounded-xl border-2 border-dashed p-8 text-center transition-all",
@@ -117,6 +137,7 @@ export default function FileUpload({
               className="text-muted-foreground h-fit cursor-pointer p-0 text-sm font-normal"
               variant={"link"}
               onClick={handleButtonClick}
+              type="button"
             >
               Select a different file
             </Button>
@@ -137,6 +158,7 @@ export default function FileUpload({
             variant="secondary"
             disabled={isAnalyzing}
             className="mt-2 cursor-pointer"
+            type="button"
           >
             Select file
           </Button>
@@ -157,12 +179,27 @@ export default function FileUpload({
           </p>
         )}
 
-        {selectedFile && <AnalyzeButton />}
+        {selectedFile && (
+          <Button
+            type="submit"
+            className="mt-2 w-full cursor-pointer"
+            disabled={isAnalyzing}
+          >
+            Analyze resume
+          </Button>
+        )}
+
+        {isAnalyzing && (
+          <div className="mx-auto mt-2 flex w-fit animate-pulse items-center gap-1">
+            <Loader className="size-4 animate-spin" />
+            <p className="">This may take a few seconds, please wait...</p>
+          </div>
+        )}
       </div>
 
       {/* <div className="x-auto relative z-20 mx-auto mt-8 max-w-lg sm:mt-12">
         <div className="absolute inset-0 -top-8 left-1/2 -z-20 h-56 w-full -translate-x-1/2 [background-image:linear-gradient(to_bottom,transparent_98%,theme(colors.blue.200/75%)_98%),linear-gradient(to_right,transparent_94%,_theme(colors.blue.200/75%)_94%)] [background-size:16px_35px] [mask:radial-gradient(black,transparent_95%)] dark:opacity-10"></div>
       </div> */}
-    </div>
+    </form>
   );
 }

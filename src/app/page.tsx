@@ -2,9 +2,8 @@
 
 import React from "react";
 import Link from "next/link";
-import { ArrowRight, Menu, Rocket, X } from "lucide-react";
-import FileUpload from "@/components/file-upload";
-import { Button } from "@/components/ui/button";
+import { ArrowRight } from "lucide-react";
+import ResumeAnalyzer from "@/components/resume-analyzer";
 
 export default function HeroSection() {
   return (
@@ -36,10 +35,7 @@ export default function HeroSection() {
                   Upload & Get intelligent resume feedback.
                 </p>
               </div>
-              <FileUpload
-                isAnalyzing={false}
-                onFileSelected={() => console.log("yeah")}
-              />
+              <ResumeAnalyzer />
             </div>
           </div>
         </section>
