@@ -1,14 +1,7 @@
 import { cn } from "@/lib/utils";
-import {
-  CheckCircle2,
-  FileWarning,
-  Loader,
-  Loader2,
-  Upload,
-} from "lucide-react";
+import { CheckCircle2, FileWarning, Loader, Upload } from "lucide-react";
 import React, { useCallback, useRef, useState } from "react";
 import { Button } from "./ui/button";
-import useAnalysisResult from "@/hooks/useAnalysisResult";
 
 interface FileUploadProps {
   onFileSelected: (file: File) => void;
@@ -31,25 +24,28 @@ export default function FileUpload({
   const [error, setError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleFile = useCallback((file: File) => {
-    const validTypes = [
-      "application/pdf",
-      "application/msword",
-      "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-    ];
+  const handleFile = useCallback(
+    (file: File) => {
+      const validTypes = [
+        "application/pdf",
+        "application/msword",
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      ];
 
-    if (!validTypes.includes(file.type)) {
-      setError("Please upload a PDF, DOC, or TXT file.");
-      return;
-    }
+      if (!validTypes.includes(file.type)) {
+        setError("Please upload a PDF, DOC, or TXT file.");
+        return;
+      }
 
-    if (file.size > MAX_FILE_SIZE) {
-      setError("File size must be less than 2MB");
-      return;
-    }
+      if (file.size > MAX_FILE_SIZE) {
+        setError("File size must be less than 2MB");
+        return;
+      }
 
-    onFileSelected(file);
-  }, []);
+      onFileSelected(file);
+    },
+    [onFileSelected],
+  );
 
   const handleDragOver = useCallback((e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -91,12 +87,6 @@ export default function FileUpload({
     }
   }, []);
 
-  const {
-    mutate: analyzeResume,
-    data: analysisResult,
-    isPending,
-  } = useAnalysisResult();
-
   return (
     <form
       onSubmit={async (e) => {
@@ -111,10 +101,12 @@ export default function FileUpload({
           isDragging ? "border-primary/50 bg-gray-100" : "",
           error ? "border-destructive/50" : "border-muted-foreground/25",
           "hover:border-primary/50",
+          isAnalyzing ? "cursor-not-allowed opacity-50" : "",
         )}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
+        aria-disabled={isAnalyzing}
       >
         <input
           ref={fileInputRef}
@@ -138,6 +130,7 @@ export default function FileUpload({
               variant={"link"}
               onClick={handleButtonClick}
               type="button"
+              disabled={isAnalyzing}
             >
               Select a different file
             </Button>
@@ -185,7 +178,7 @@ export default function FileUpload({
             className="mt-2 w-full cursor-pointer"
             disabled={isAnalyzing}
           >
-            Analyze resume
+            {isAnalyzing ? "Analyzing..." : "Analyze resume"}
           </Button>
         )}
 

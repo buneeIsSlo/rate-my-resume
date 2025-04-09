@@ -4,7 +4,6 @@ import { Gauge } from "@suyalcinkaya/gauge";
 import { ConfidenceBadge } from "./confidence-badge";
 import {
   FileText,
-  Shield,
   SpellCheck,
   FileScan,
   ShieldPlus,

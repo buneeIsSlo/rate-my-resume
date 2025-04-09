@@ -35,8 +35,8 @@ export async function POST(req: Request) {
     });
 
     return Response.json(result.object);
-  } catch (error: any) {
+  } catch (error) {
     console.error("Error processing resume:", error);
-    return Response.json({ error: error.message });
+    return Response.json({ error: (error as Error).message });
   }
 }
