@@ -26,7 +26,7 @@ export default function useAnalysisResult() {
     return response.json();
   };
 
-  const { mutate, data, isPending } = useMutation<
+  const { mutate, data, isPending, reset } = useMutation<
     AnalysisResult,
     Error,
     ResumeData
@@ -34,5 +34,5 @@ export default function useAnalysisResult() {
     mutationFn: (resumeData: ResumeData) => getAnalyzedResult(resumeData),
   });
 
-  return { mutate, data, isPending };
+  return { mutate, data, isPending, reset };
 }

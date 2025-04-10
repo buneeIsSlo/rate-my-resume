@@ -10,11 +10,14 @@ import {
   ChartNoAxesColumn,
 } from "lucide-react";
 import React from "react";
+import { Button } from "./ui/button";
 
 export default function ResumeReview({
   analysisResult,
+  onReset,
 }: {
   analysisResult: AnalysisResult;
+  onReset: () => void;
 }) {
   const {
     scores,
@@ -25,7 +28,6 @@ export default function ResumeReview({
     weaknesses,
   } = analysisResult;
 
-  // Add refs for each section
   const sectionRefs = {
     overall: React.useRef<HTMLDivElement>(null),
     typos: React.useRef<HTMLDivElement>(null),
@@ -218,6 +220,16 @@ export default function ResumeReview({
             )}
           </CardContent>
         </Card>
+      </div>
+
+      <div className="mx-auto mt-12 mb-8 flex justify-center">
+        <Button
+          onClick={onReset}
+          className="bg-primary hover:bg-primary/90 cursor-pointer px-6 py-3 font-medium text-white"
+          size={"lg"}
+        >
+          Try Another Resume
+        </Button>
       </div>
     </div>
   );

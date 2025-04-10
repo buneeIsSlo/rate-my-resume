@@ -8,7 +8,12 @@ import { Button } from "./ui/button";
 
 export default function ResumeAnalyzer() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const { mutate, data, isPending } = useAnalysisResult();
+  const { mutate, data, isPending, reset } = useAnalysisResult();
+
+  const handleReset = () => {
+    setSelectedFile(null);
+    reset();
+  };
 
   const handleFileSelected = async (file: File) => {
     setSelectedFile(file);
@@ -37,7 +42,7 @@ export default function ResumeAnalyzer() {
           <CardContent>
             <p>{data.overallImpression}</p>
             <Button
-              onClick={() => window.location.reload()}
+              onClick={handleReset}
               className="mt-4 cursor-pointer rounded bg-yellow-100 px-4 py-2 text-yellow-800 hover:bg-yellow-200"
             >
               Try Again
@@ -48,8 +53,8 @@ export default function ResumeAnalyzer() {
     );
   }
 
-  if (data) {
-    return <ResumeReview analysisResult={data} />;
+  if (data && selectedFile) {
+    return <ResumeReview analysisResult={data} onReset={handleReset} />;
   }
 
   return (
