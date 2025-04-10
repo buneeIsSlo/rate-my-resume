@@ -97,11 +97,11 @@ export default function FileUpload({
     >
       <div
         className={cn(
-          "relative flex flex-col items-center justify-center rounded-xl border-2 border-dashed p-8 text-center transition-all",
+          "relative flex flex-col items-center justify-center rounded-xl border-2 border-dashed bg-white p-8 text-center transition-all",
           isDragging ? "border-primary/50 bg-gray-100" : "",
           error ? "border-destructive/50" : "border-muted-foreground/25",
           "hover:border-primary/50",
-          isAnalyzing ? "cursor-not-allowed opacity-50" : "",
+          isAnalyzing ? "cursor-not-allowed bg-neutral-50 opacity-70" : "",
         )}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
@@ -175,7 +175,7 @@ export default function FileUpload({
         {selectedFile && (
           <Button
             type="submit"
-            className="mt-2 w-full cursor-pointer"
+            className="mt-2 w-full cursor-pointer disabled:bg-blue-300 disabled:opacity-100"
             disabled={isAnalyzing}
           >
             {isAnalyzing ? "Analyzing..." : "Analyze resume"}
@@ -190,9 +190,9 @@ export default function FileUpload({
         )}
       </div>
 
-      {/* <div className="x-auto relative z-20 mx-auto mt-8 max-w-lg sm:mt-12">
-        <div className="absolute inset-0 -top-8 left-1/2 -z-20 h-56 w-full -translate-x-1/2 [background-image:linear-gradient(to_bottom,transparent_98%,theme(colors.blue.200/75%)_98%),linear-gradient(to_right,transparent_94%,_theme(colors.blue.200/75%)_94%)] [background-size:16px_35px] [mask:radial-gradient(black,transparent_95%)] dark:opacity-10"></div>
-      </div> */}
+      <div className="x-auto relative -z-2 mx-auto max-w-lg">
+        <div className="absolute inset-0 -top-52 left-1/2 -z-20 h-56 w-full -translate-x-1/2 [background-image:linear-gradient(to_bottom,transparent_98%,theme(colors.blue.200/95%)_98%),linear-gradient(to_right,transparent_94%,_theme(colors.blue.200/95%)_94%)] [background-size:16px_35px] [mask:radial-gradient(black,transparent_95%)] dark:opacity-10"></div>
+      </div>
     </form>
   );
 }
