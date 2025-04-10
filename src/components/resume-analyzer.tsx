@@ -3,10 +3,12 @@ import FileUpload from "./file-upload";
 import ResumeReview from "./resume-review";
 import useAnalysisResult from "@/hooks/useAnalysisResult";
 import { encodeFileAsBase64 } from "@/lib/utils";
+import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
+import { Button } from "./ui/button";
 
 export default function ResumeAnalyzer() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const { mutate, data: analysisResult, isPending } = useAnalysisResult();
+  const { mutate, data, isPending } = useAnalysisResult();
 
   const handleFileSelected = async (file: File) => {
     setSelectedFile(file);
@@ -22,8 +24,32 @@ export default function ResumeAnalyzer() {
     });
   };
 
-  if (analysisResult) {
-    return <ResumeReview analysisResult={analysisResult} />;
+  // Handle non-resume PDFs or errors detected by the AI
+  if (data && data.scores.overall === 0) {
+    return (
+      <div className="mx-auto mt-4 max-w-3xl p-8">
+        <Card className="rounded-lg border-none bg-yellow-50 p-4 text-yellow-800 shadow-amber-200">
+          <CardHeader>
+            <CardTitle className="text-lg font-semibold">
+              Unable to Analyze Resume
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p>{data.overallImpression}</p>
+            <Button
+              onClick={() => window.location.reload()}
+              className="mt-4 cursor-pointer rounded bg-yellow-100 px-4 py-2 text-yellow-800 hover:bg-yellow-200"
+            >
+              Try Again
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+  if (data) {
+    return <ResumeReview analysisResult={data} />;
   }
 
   return (

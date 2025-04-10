@@ -8,7 +8,9 @@ interface ResumeData {
 }
 
 export default function useAnalysisResult() {
-  const getAnalyzedResult = async (resumeData: ResumeData) => {
+  const getAnalyzedResult = async (
+    resumeData: ResumeData,
+  ): Promise<AnalysisResult> => {
     const response = await fetch("/api/review-resume", {
       method: "POST",
       body: JSON.stringify(resumeData),

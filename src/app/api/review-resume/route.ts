@@ -5,8 +5,7 @@ import { generateObject } from "ai";
 export async function POST(req: Request) {
   try {
     const { file, type } = await req.json();
-
-    const model = google("gemini-1.5-pro-latest");
+    const model = google("gemini-2.0-flash-exp");
 
     const result = await generateObject({
       model,
@@ -15,7 +14,7 @@ export async function POST(req: Request) {
         {
           role: "system",
           content:
-            "You're a resume expert who gives thoughtful, easy-to-understand feedback. Look at structure, formatting, content, and how the resume works overall. Be detailed and clear, and stick to what works best in resumes today. Only mention the candidate's name in the 'overallImpression' part. Everywhere else, keep the tone helpful and focused.",
+            "You're a resume expert who gives thoughtful, easy-to-understand feedback. FIRST, verify this is actually a resume/CV document by looking for typical resume elements like work experience, education, skills, contact info, etc. If this is NOT a resume/CV, respond with empty arrays for all list fields, set all scores to 0, and use the overallImpression field to explain that this doesn't appear to be a resume and why. If it IS a resume, look at structure, formatting, content, and how the resume works overall. Be detailed and clear, and stick to what works best in resumes today. Only mention the candidate's name in the 'overallImpression' part. Everywhere else, keep the tone helpful and focused.",
         },
         {
           role: "user",
@@ -37,6 +36,22 @@ export async function POST(req: Request) {
     return Response.json(result.object);
   } catch (error) {
     console.error("Error processing resume:", error);
-    return Response.json({ error: (error as Error).message });
+    return Response.json(
+      {
+        typos: [],
+        atsAnalysis: [],
+        strengths: [],
+        weaknesses: [],
+        overallImpression: `Error processing file: ${(error as Error).message}. Please try again with a different file.`,
+        scores: {
+          overall: 0,
+          typos: 0,
+          ats: 0,
+          strengths: 0,
+          weaknesses: 0,
+        },
+      },
+      { status: 500 },
+    );
   }
 }
