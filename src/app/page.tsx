@@ -13,7 +13,8 @@ export default function HeroSection() {
             <div className="mx-auto max-w-7xl px-6 md:px-12">
               <div className="text-center sm:mx-auto sm:w-10/12 lg:mt-0 lg:mr-auto lg:w-4/5">
                 <a
-                  href="https://t3.chat/chat/welcome"
+                  href="https://github.com/buneeIsSlo/rate-my-resume"
+                  target="_blank"
                   className="mx-auto flex w-fit items-center gap-2 rounded-(--radius) border p-1 pr-3"
                 >
                   <span className="bg-primary/10 text-primary rounded-full px-3 py-0.5 text-xs font-medium md:py-1">
