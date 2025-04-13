@@ -60,7 +60,7 @@ export default function ResumeReview({
                     type === "overall" ? "font-medium" : "text-muted-foreground"
                   }`}
                 >
-                  {type}
+                  {type === "weaknesses" ? "improvements" : type}
                 </CardTitle>
               </CardHeader>
               <CardContent>
@@ -80,9 +80,16 @@ export default function ResumeReview({
                     size="md"
                     showValue
                     showAnimation
-                    strokeWidth={type === "overall" ? 8 : 6}
+                    strokeWidth={type === "overall" ? 8 : 10}
                   />
                 </div>
+                <p className="text-muted-foreground mt-2 text-center text-xs">
+                  {type === "overall" && "Overall resume strength"}
+                  {type === "typos" && "Grammar and Spelling"}
+                  {type === "ats" && "Applicant tracking readiness"}
+                  {type === "strengths" && "Notable resume qualities"}
+                  {type === "weaknesses" && "Areas for enhancement"}
+                </p>
               </CardContent>
             </Card>
           ))}

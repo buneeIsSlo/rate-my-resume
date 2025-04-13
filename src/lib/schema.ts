@@ -89,7 +89,9 @@ export const AnalysisResultSchema = z.object({
         .number()
         .min(0)
         .max(100)
-        .describe("Score for weaknesses on a scale of 0 to 100"),
+        .describe(
+          "Score for weaker areas on a scale of 0 to 100 (higher = better/fewer improvements needed)",
+        ),
     })
     .describe("An object containing scores for each analysis category"),
 });
