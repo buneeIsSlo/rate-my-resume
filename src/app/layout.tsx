@@ -19,9 +19,26 @@ const besley = Besley({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://rate-my-resume-pls.vercel.app"),
   title: "Rate my Resume",
   description:
     "Enhance your resume with AI-powered feedback. Get instant scores and actionable insights to stand out.",
+  authors: [{ name: "abshk" }],
+  openGraph: {
+    title: "rate-my-resume-pls.vercel.app",
+    description: "Upload your resume and get intelligent feedback",
+    images: [
+      {
+        url: "/preview.png",
+        width: 1200,
+        height: 630,
+        alt: "rate my resume",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+  },
 };
 
 export default function RootLayout({
